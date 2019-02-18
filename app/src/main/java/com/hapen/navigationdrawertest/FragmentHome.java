@@ -13,6 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+import com.squareup.picasso.Picasso;
+
 
 import java.util.ArrayList;
 
@@ -117,6 +119,7 @@ public class FragmentHome extends Fragment {
                 R.drawable.event_flyer_fafsa));
 
         mRecyclerView = v.findViewById(R.id.recycler_home);
+
         // Set to true if you it has a fixed size
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity());
@@ -125,6 +128,13 @@ public class FragmentHome extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+
+
+
+
+
         return v;
     }
+
+
 }

@@ -8,7 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class FragmentOrganizations extends Fragment {
+public class
+FragmentOrganizations extends Fragment {
 
     @Nullable
     @Override

@@ -1,6 +1,10 @@
 package com.hapen.navigationdrawertest;
 
 import java.util.Date;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.LinearLayout;
 
 public class CardItem {
     private int organizationLogo;
@@ -9,6 +13,8 @@ public class CardItem {
     private String eventTitle;
     private String eventDate;
     private int eventFlyer;
+    private boolean zoomOut =  false;
+
 
     public CardItem(int orgLogo, String orgName, String category, String title, String date,
                     int flyer) {
@@ -19,6 +25,11 @@ public class CardItem {
         eventDate = date;
         eventFlyer = flyer;
     }
+
+
+
+
+
 
     public int getOrganizationLogo() {
         return organizationLogo;

@@ -240,15 +240,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
 
 
-/*
-        recyclerViewHolder.eventFlyer.setOnClickListener(new View.OnClickListener() {
+
+        recyclerViewHolder.eventTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
 
                 Intent mIntent = new Intent(context, DetailActivity.class);
-                //mIntent.putExtra("Title", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getOrganizationName());
-                //mIntent.putExtra("Description", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getEventTitle());
+                mIntent.putExtra("Title", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getOrganizationName());
+                mIntent.putExtra("Description", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getEventTitle());
                 mIntent.putExtra("Image", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getEventFlyer());
 
                 context.startActivity(mIntent);
@@ -265,7 +265,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             }
         });
 
-        */
+
 
 
 

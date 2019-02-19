@@ -40,10 +40,12 @@ public class DetailActivity extends AppCompatActivity {
 
         Bundle mBundle = getIntent().getExtras();
         if (mBundle != null) {
+            eventTitle.setText(mBundle.getString("Title"));
+            //organizationName.setText(mBundle.getInt("Description"));
 
             eventFlyer.setImageResource(mBundle.getInt("Image"));
-            //eventTitle.setText(mBundle.getString("Title"));
-            //organizationName.setText(mBundle.getInt("Description"));
+
+
 
 
 

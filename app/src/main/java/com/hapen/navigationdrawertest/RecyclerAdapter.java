@@ -258,18 +258,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
 
 
-        recyclerViewHolder.eventTitle.setOnClickListener(new View.OnClickListener() {
+        recyclerViewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
 
-
-
+                // passing info to the detail activity
                 Intent mIntent = new Intent(context, DetailActivity.class);
-                mIntent.putExtra("Org", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getOrganizationName());
-                mIntent.putExtra("Description", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getEventDetails());
+                mIntent.putExtra("Organization Logo", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getOrganizationLogo());
+                mIntent.putExtra("Organization Name", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getOrganizationName());
+                mIntent.putExtra("Category", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getEventCategory());
                 mIntent.putExtra("Title", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getEventTitle());
                 mIntent.putExtra("Image", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getEventFlyer());
+                mIntent.putExtra("Date", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getEventDate());
+                mIntent.putExtra("Description", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getEventDescription());
 
                 context.startActivity(mIntent);
 

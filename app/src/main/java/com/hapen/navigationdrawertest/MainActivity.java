@@ -1,5 +1,6 @@
 package com.hapen.navigationdrawertest;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -28,6 +29,7 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 
 //public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -146,7 +148,10 @@ public class MainActivity extends AppCompatActivity
                     new FragmentProfile()).commit();
             setTitle("Profile");
         } else if (id == R.id.nav_log_out) {
-            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+
+            FirebaseAuth.getInstance().signOut();
+            finish();
+            startActivity(new Intent(this,StartActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

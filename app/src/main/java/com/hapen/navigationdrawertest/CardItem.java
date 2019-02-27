@@ -12,19 +12,25 @@ public class CardItem {
     private String eventCategory;
     private String eventTitle;
     private String eventDate;
+    private String eventDetails;
     private int eventFlyer;
     private boolean zoomOut =  false;
 
 
-    public CardItem(int orgLogo, String orgName, String category, String title, String date,
+    public CardItem(int orgLogo, String orgName, String category, String title, String date, String details,
                     int flyer) {
         organizationLogo = orgLogo;
         organizationName = orgName;
         eventCategory = category;
         eventTitle = title;
         eventDate = date;
+        eventDetails = details;
         eventFlyer = flyer;
+
     }
+
+
+
 
 
 
@@ -50,6 +56,8 @@ public class CardItem {
     public String getEventDate() {
         return eventDate;
     }
+
+    public String getEventDetails() {return  eventDetails; }
 
     public int getEventFlyer() {
         return eventFlyer;

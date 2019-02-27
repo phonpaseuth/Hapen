@@ -1,5 +1,6 @@
 package com.hapen.navigationdrawertest;
 
+import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +21,7 @@ public class DetailActivity extends AppCompatActivity {
     public TextView organizationName;
     public TextView eventCategory;
     public TextView eventTitle;
-    public TextView eventDate;
+    public TextView eventDetails;
     private View mView;
 
     @Override
@@ -33,6 +34,7 @@ public class DetailActivity extends AppCompatActivity {
         mCardView = findViewById(R.id.cardview);
         eventTitle = findViewById(R.id.card_event_title);
         organizationName = findViewById(R.id.card_organization_name);
+        eventDetails = findViewById(R.id.card_event_details);
 
 
 
@@ -40,10 +42,11 @@ public class DetailActivity extends AppCompatActivity {
 
         Bundle mBundle = getIntent().getExtras();
         if (mBundle != null) {
+            organizationName.setText(mBundle.getString("Org"));
+            eventDetails.setText(mBundle.getString("Description"));
             eventTitle.setText(mBundle.getString("Title"));
-            //organizationName.setText(mBundle.getInt("Description"));
-
             eventFlyer.setImageResource(mBundle.getInt("Image"));
+
 
 
 

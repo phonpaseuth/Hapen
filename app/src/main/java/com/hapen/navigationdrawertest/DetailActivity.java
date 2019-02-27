@@ -1,5 +1,6 @@
 package com.hapen.navigationdrawertest;
 
+import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,10 +39,6 @@ public class DetailActivity extends AppCompatActivity {
         eventTitle = findViewById(R.id.title);
         eventDescription = findViewById(R.id.description);
         eventFlyer = findViewById(R.id.flyer);
-
-
-
-
 
         Bundle mBundle = getIntent().getExtras();
         if (mBundle != null) {

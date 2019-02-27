@@ -12,17 +12,20 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.content.Intent;
+import android.support.v7.widget.SearchView;
 //import android.view.Ca
 import android.support.v7.app.AppCompatActivity;
 
 import com.dmallcott.dismissibleimageview.DismissibleImageView;
 import com.squareup.picasso.Picasso;
 
-
+import android.support.v4.view.ViewPager;
 
 
 
@@ -38,19 +41,25 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> implements Filterable{
     private ArrayList<CardItem> mArrayList;
+    private ArrayList<CardItem> mArrayListFull;
     private Context mContext;
     //ImageView imageView;
     boolean isImageFitToScreen = false;
     private boolean zoomOut =  false;
     private OnItemClickListener mListener;
 
+    private DetailActivity myadapter;
+
 
 
     public interface OnItemClickListener{
         void onITemClick(int position);
     };
+
+
+
 
     public void setOnItemClickListener(OnItemClickListener listener){
         mListener = listener;
@@ -68,10 +77,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         public TextView eventCategory;
         public TextView eventTitle;
         public TextView eventDate;
+        public TextView eventDetails;
         public DismissibleImageView eventFlyer;
         public CardView mCardView;
         private View mView;
         private boolean zoomOut =  false;
+        private ViewPager viewPager;
 
 
 
@@ -86,6 +97,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             eventFlyer = itemView.findViewById(R.id.card_event_flyer);
             mCardView = itemView.findViewById(R.id.cardview);
             mView = itemView;
+            //
+            //viewPager = itemView.findViewById(R.id.viewpager);
 
            // DismissibleImageView dismissibleImageView = itemView.findViewById(R.id.card_event_flyer);
 
@@ -121,6 +134,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         }
 
 
+
+
         public void setImage(Context context, String image){
             DismissibleImageView postImage = (DismissibleImageView) mView.findViewById(R.id.card_event_flyer);
             Picasso.with(context)
@@ -136,6 +151,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
     public RecyclerAdapter(ArrayList<CardItem> arrayList) {
         mArrayList = arrayList;
+        mArrayListFull = new ArrayList<>(mArrayList);
     }
 
     @NonNull
@@ -281,6 +297,47 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     public int getItemCount() {
         return mArrayList.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<CardItem> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(mArrayListFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (CardItem item : mArrayListFull) {
+                    if (item.getEventTitle().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                    else if (item.getOrganizationName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mArrayList.clear();
+            mArrayList.addAll((ArrayList) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }
 
 

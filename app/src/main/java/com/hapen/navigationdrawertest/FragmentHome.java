@@ -5,25 +5,44 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.squareup.picasso.Picasso;
+import android.view.MenuInflater;
 
 
 import java.util.ArrayList;
 
 
 public class FragmentHome extends Fragment {
+
+
+//public class FragmentHome extends Fragment {
+
+
     /*** Recycler View ***/
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
+    //private RecyclerView mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private ArrayList<CardItem> cardItem;
+
+
+
+
+
 
     @Nullable
     @Override
@@ -31,6 +50,12 @@ public class FragmentHome extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_home, container, false);
+        setHasOptionsMenu(true);
+
+
+
+
+
 
         /*** Spinners ***/
         // Categories spinner
@@ -67,6 +92,9 @@ public class FragmentHome extends Fragment {
 
             }
         });
+
+
+
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
                 this.getActivity(), R.array.spinner_organizations,
                 android.R.layout.simple_spinner_dropdown_item);
@@ -74,7 +102,11 @@ public class FragmentHome extends Fragment {
         spinner2.setAdapter(adapter2);
 
         /*** Recycler View ***/
-        ArrayList<CardItem> cardItem = new ArrayList<>();
+
+
+        ArrayList<CardItem> cardItem;
+        cardItem = new ArrayList<>();
+
         cardItem.add(new CardItem(
                 R.drawable.org_logo_nsbe,
                 "National Society of Black Engineers",
@@ -141,12 +173,16 @@ public class FragmentHome extends Fragment {
                         "\n",
                 R.drawable.event_flyer_fafsa));
 
+
+
+
         mRecyclerView = v.findViewById(R.id.recycler_home);
 
         // Set to true if you it has a fixed size
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity());
         mAdapter = new RecyclerAdapter(cardItem);
+
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -157,6 +193,35 @@ public class FragmentHome extends Fragment {
 
 
         return v;
+    }
+
+
+
+
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //mAdapter.getFilter().filter(newText);
+                ((RecyclerAdapter)mRecyclerView.getAdapter()).getFilter().filter(newText);
+
+
+                return false;
+            }
+        });
     }
 
 

@@ -16,7 +16,6 @@ public class CardItem {
     private int eventFlyer;
     private boolean zoomOut =  false;
 
-
     public CardItem(int orgLogo, String orgName, String category, String title, String date,
                     String description, int flyer) {
         organizationLogo = orgLogo;

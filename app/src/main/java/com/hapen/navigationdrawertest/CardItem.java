@@ -25,7 +25,6 @@ public class CardItem {
         eventDate = date;
         eventDescription = description;
         eventFlyer = flyer;
-
     }
 
     public int getOrganizationLogo() {

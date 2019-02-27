@@ -97,7 +97,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             eventFlyer = itemView.findViewById(R.id.card_event_flyer);
             mCardView = itemView.findViewById(R.id.cardview);
             mView = itemView;
-            eventDetails = itemView.findViewById(R.id.card_event_details);
             //
             //viewPager = itemView.findViewById(R.id.viewpager);
 
@@ -339,13 +338,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             notifyDataSetChanged();
         }
     };
-
-
-
-
-
-
-
 }
 
 

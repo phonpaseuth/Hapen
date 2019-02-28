@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "261257452619",
+    "firebase_url": "https://hapen-51939.firebaseio.com",
+    "project_id": "hapen-51939",
+    "storage_bucket": "hapen-51939.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261257452619:android:e2ed4c3f7ff6cafe",
+        "android_client_info": {
+          "package_name": "com.hapen.navigationdrawertest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261257452619-lnstompenn8m06pl2nqucvreaa8ljajl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hapen.navigationdrawertest",
+            "certificate_hash": "68217b8feacff52732f6c4d14676b518cd5fd480"
+          }
+        },
+        {
+          "client_id": "261257452619-pa5gcb4fdvn2gg6g7bj34asb8sqro4k7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVxsookZ9vhlyTQQs03Nuctqbw508PTxM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261257452619-pa5gcb4fdvn2gg6g7bj34asb8sqro4k7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

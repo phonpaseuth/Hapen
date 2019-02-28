@@ -21,7 +21,8 @@ public class DetailActivity extends AppCompatActivity {
     public TextView organizationName;
     public TextView eventCategory;
     public TextView eventTitle;
-    public TextView eventDetails;
+    public TextView eventDate;
+    public TextView eventDescription;
     private View mView;
 
     @Override
@@ -29,29 +30,26 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-
-        eventFlyer = findViewById(R.id.card_event_flyer);
+        // match the data to the layout's id
         mCardView = findViewById(R.id.cardview);
-        eventTitle = findViewById(R.id.card_event_title);
-        organizationName = findViewById(R.id.card_organization_name);
-        eventDetails = findViewById(R.id.card_event_details);
-
-
-
-
+        organizationLogo = findViewById(R.id.organization_logo);
+        organizationName = findViewById(R.id.organization_name);
+        eventCategory = findViewById(R.id.category);
+        eventDate = findViewById(R.id.date);
+        eventTitle = findViewById(R.id.title);
+        eventDescription = findViewById(R.id.description);
+        eventFlyer = findViewById(R.id.flyer);
 
         Bundle mBundle = getIntent().getExtras();
         if (mBundle != null) {
-            organizationName.setText(mBundle.getString("Org"));
-            eventDetails.setText(mBundle.getString("Description"));
+            setTitle(mBundle.getString("Title"));
+            organizationLogo.setImageResource(mBundle.getInt("Organization Logo"));
+            organizationName.setText(mBundle.getString("Organization Name"));
+            eventCategory.setText(mBundle.getString("Category"));
+            eventDate.setText(mBundle.getString("Date"));
             eventTitle.setText(mBundle.getString("Title"));
+            eventDescription.setText(mBundle.getString("Description"));
             eventFlyer.setImageResource(mBundle.getInt("Image"));
-
-
-
-
-
-
         }
     }
 }

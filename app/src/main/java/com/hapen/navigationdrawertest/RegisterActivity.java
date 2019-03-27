@@ -95,7 +95,6 @@ public class RegisterActivity extends AppCompatActivity {
                             reference = FirebaseDatabase.getInstance().getReference().child("users").child(userid);
 
                             HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("id", userid);
                             hashMap.put("fullName", fullname);
                             hashMap.put("imageurl", "https://firebasestorage.googleapis.com/v0/b/hapen-51939.appspot.com/o/male.png?alt=media&token=8c9f7e17-0fc6-4332-bd55-cfc7dec0ab01");
 

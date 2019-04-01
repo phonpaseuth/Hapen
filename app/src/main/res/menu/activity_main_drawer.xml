@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+
+
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
@@ -25,6 +27,10 @@
             android:icon="@drawable/ic_menu_organization"
             android:title="Organizations" />
         <item
+            android:id="@+id/nav_upload"
+            android:icon="@drawable/ic_menu_post"
+            android:title="Upload"/>
+        <item
             android:id="@+id/nav_categories"
             android:icon="@drawable/ic_menu_categories"
             android:title="Categories" />
@@ -38,5 +44,7 @@
                 android:title="Log Out" />
         </menu>
     </item>
+
+
 
 </menu>

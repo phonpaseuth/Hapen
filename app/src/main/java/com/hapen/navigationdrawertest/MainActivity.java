@@ -182,6 +182,10 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new FragmentCategories()).commit();
             setTitle("Categories");
+        } else if (id == R.id.nav_upload) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FragmentUpload()).commit();
+            setTitle("Upload");
         } else if (id == R.id.nav_profile) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new FragmentProfile()).commit();

@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String value = dataSnapshot.getValue(String.class);
-                System.out.println("The value is: " + value);
             }
 
             @Override

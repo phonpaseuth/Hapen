@@ -53,10 +53,6 @@ public class FragmentHome extends Fragment {
         setHasOptionsMenu(true);
 
 
-
-
-
-
         /*** Spinners ***/
         // Categories spinner
         Spinner spinner1 = (Spinner) v.findViewById(R.id.spinner_categories);

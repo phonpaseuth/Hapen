@@ -8,17 +8,12 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="spinner_categories">
-        <item>All categories</item>
-        <item>Financial aids</item>
-        <item>Housing</item>
-        <item>Scholarship</item>
+        <item>Sort: Oldest - Newest</item>
+        <item>Sort: Event Title</item>
+        <item>Sort: Organization Name</item>
+
     </string-array>
 
 
-    <string-array name="spinner_organizations">
-        <item>All organizations</item>
-        <item>ACM - Association for Computing Machinery</item>
-        <item>NSBE - National Society of Black Engineers</item>
-        <item>SWE - Society of Women Engineers</item>
-    </string-array>
+
 </resources>

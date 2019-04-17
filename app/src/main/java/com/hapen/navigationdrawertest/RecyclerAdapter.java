@@ -1,11 +1,16 @@
+
 package com.hapen.navigationdrawertest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+//import com.app.wanna.android.utils.firebaseadapter.FirebaseRecyclerAdapter;
+///////////////////////////import com.firebase.ui.database.FirebaseRecyclerOptions;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +27,21 @@ import android.support.v7.widget.SearchView;
 //import android.view.Ca
 import android.support.v7.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.dmallcott.dismissibleimageview.DismissibleImageView;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import android.support.v4.view.ViewPager;
 
 
-
-
+import java.util.Collection;
 import java.util.List;
 
 import com.github.chrisbanes.photoview.PhotoView;
@@ -41,16 +53,27 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 
+
+
+
+
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> implements Filterable{
-    private ArrayList<CardItem> mArrayList;
-    private ArrayList<CardItem> mArrayListFull;
+//public class RecyclerAdapter extends FirebaseRecyclerAdapter<CardItem, RecyclerViewHolder>{
+
+   // private RecycleItemClick recycleItemClick;
+    //private static final String TAG = "PeopleListAdapter";
+    private final ArrayList<CardItem> mArrayList;
+    private final
+    ArrayList<CardItem> mArrayListFull;
     private Context mContext;
     //ImageView imageView;
     boolean isImageFitToScreen = false;
     private boolean zoomOut =  false;
     private OnItemClickListener mListener;
+    private Activity context;
 
     private DetailActivity myadapter;
+
 
 
 
@@ -61,14 +84,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
 
 
+
+
     public void setOnItemClickListener(OnItemClickListener listener){
         mListener = listener;
         //boolean zoomOut =  false;
     }
 
     RecyclerAdapter(Context mContext,ArrayList<CardItem> mArrayList) {
+        //super(mContext, R.layout.card_item, mArrayList);
         this.mContext=mContext;
         this.mArrayList= mArrayList;
+        mArrayListFull = new ArrayList<>(mArrayList);
     }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -77,17 +104,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         public TextView eventCategory;
         public TextView eventTitle;
         public TextView eventDate;
-        public TextView eventDetails;
+        public TextView eventDescription;
         public DismissibleImageView eventFlyer;
         public CardView mCardView;
-        private View mView;
+        //private View mView;
+        View mView;
         private boolean zoomOut =  false;
         private ViewPager viewPager;
 
 
 
+
         public RecyclerViewHolder(@NonNull final View itemView, final OnItemClickListener listener) {
             super(itemView);
+
+            mView = itemView;
+
 
             organizationLogo = itemView.findViewById(R.id.card_organization_logo);
             organizationName = itemView.findViewById(R.id.card_organization_name);
@@ -96,43 +128,47 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             eventDate = itemView.findViewById(R.id.card_event_date);
             eventFlyer = itemView.findViewById(R.id.card_event_flyer);
             mCardView = itemView.findViewById(R.id.cardview);
-            mView = itemView;
-            //
+
             //viewPager = itemView.findViewById(R.id.viewpager);
 
-           // DismissibleImageView dismissibleImageView = itemView.findViewById(R.id.card_event_flyer);
+            //DismissibleImageView dismissibleImageView = itemView.findViewById(R.id.card_event_flyer);
 
-            //final ImageView imageView  = itemView.findViewById(R.id.card_event_flyer);
-/*
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null){
-
-                        if(zoomOut) {
-                            //Toast.makeText(getApplicationContext(), "NORMAL SIZE!", Toast.LENGTH_LONG).show();
-                            imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                            imageView.setAdjustViewBounds(true);
-                            zoomOut =false;
-                        }else{
-                            //Toast.makeText(getApplicationContext(), "FULLSCREEN!", Toast.LENGTH_LONG).show();
-                            imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                            zoomOut = true;
-                        }
-
-                    }
-
-
-                }
-            });
-
-            */
+            //final ImageView imageView  = itemView.findViewById(R.id.card_event_flyer)
 
 
 
         }
 
+        public void setEventTitle(String title){
+            TextView post_title = (TextView)mView.findViewById(R.id.card_event_title);
+            post_title.setText(title);
+        }
+
+        public void setOrganizationLogo(Context ctx, String organizationLogo){
+            ImageView post_organization_logo = (ImageView)mView.findViewById(R.id.card_organization_logo);
+            Picasso.with(ctx).load(organizationLogo).into(post_organization_logo);
+
+        }
+
+        public void setOrganizationName(String organizationName){
+            TextView post_organization_name = (TextView)mView.findViewById(R.id.card_organization_name);
+            post_organization_name.setText(organizationName);
+        }
+        public void setEventCategory(String eventCategory){
+            TextView post_event_category = (TextView)mView.findViewById(R.id.card_category);
+            post_event_category.setText(eventCategory);
+        }
+        public void setEventDate(String eventDate){
+            TextView post_event_date = (TextView)mView.findViewById(R.id.card_event_date);
+            post_event_date.setText(eventDate);
+        }
+
+
+        public void setEventFlyer(Context ctx, String eventFlyer){
+            DismissibleImageView post_event_flyer = (DismissibleImageView)mView.findViewById(R.id.card_event_flyer);
+            Picasso.with(ctx).load(eventFlyer).into(post_event_flyer);
+
+        }
 
 
 
@@ -149,8 +185,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
     }
 
-    public RecyclerAdapter(ArrayList<CardItem> arrayList) {
-        mArrayList = arrayList;
+    public RecyclerAdapter(ArrayList<CardItem> mArrayList) {
+        this.mArrayList = mArrayList;
         mArrayListFull = new ArrayList<>(mArrayList);
     }
 
@@ -169,91 +205,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     public void onBindViewHolder(@NonNull final RecyclerViewHolder recyclerViewHolder, final int i) {
         CardItem currentItem = mArrayList.get(i);
         //CardItem currentItem = mArrayList.get(i);
-        recyclerViewHolder.organizationLogo.setImageResource(currentItem.getOrganizationLogo());
-        recyclerViewHolder.organizationName.setText(currentItem.getOrganizationName());
-        recyclerViewHolder.eventCategory.setText(currentItem.getEventCategory());
-        recyclerViewHolder.eventTitle.setText(currentItem.getEventTitle());
-        recyclerViewHolder.eventTitle.setText(mArrayList.get(i).getEventTitle());
-        recyclerViewHolder.eventDate.setText(currentItem.getEventDate());
-        recyclerViewHolder.eventFlyer.setImageResource(currentItem.getEventFlyer());
-        recyclerViewHolder.eventFlyer.setImageResource(mArrayList.get(i).getEventFlyer());
-
-/*
-        recyclerViewHolder.eventFlyer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(zoomOut) {
-                    //Toast.makeText(getApplicationContext(), "NORMAL SIZE!", Toast.LENGTH_LONG).show();
-                    recyclerViewHolder.eventFlyer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                    recyclerViewHolder.eventFlyer.setAdjustViewBounds(true);
-                    zoomOut =false;
-                }else{
-                    //Toast.makeText(getApplicationContext(), "FULLSCREEN!", Toast.LENGTH_LONG).show();
-                    recyclerViewHolder.eventFlyer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-                    recyclerViewHolder.eventFlyer.setScaleType(ImageView.ScaleType.FIT_XY);
-                    zoomOut = true;
-                }
-            }
-        });
-        */
-
-
-/*
-        recyclerViewHolder.eventFlyer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(isImageFitToScreen) {
-                        isImageFitToScreen=false;
-                        recyclerViewHolder.eventFlyer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                        recyclerViewHolder.eventFlyer.setAdjustViewBounds(true);
-                    }else{
-                        isImageFitToScreen=true;
-                        recyclerViewHolder.eventFlyer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-                        recyclerViewHolder.eventFlyer.setScaleType(ImageView.ScaleType.FIT_XY);
-                    }
-                }
-            });
-*/
-
-
-            //recyclerViewHolder.setImage(currentItem, mArrayList.get(i).getEventFlyer());
-
-
-
-/*
-        recyclerViewHolder.eventFlyer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
-
-                LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-
-                View mView = inflater.inflate(R.layout.dialog_custom_layout, null);
-                PhotoView photoView = mView.findViewById(R.id.imageView);
-                photoView.setImageResource(mArrayList.get(i).getEventFlyer());
-                mBuilder.setView(mView);
-                AlertDialog mDialog = mBuilder.create();
-                mDialog.show();
-            }
-        });
-*/
-
-        /*
-
-
-        recyclerViewHolder.eventFlyer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent i = new Intent(context, FragmentHome.class);
-                context.startActivity(i);
-            }
-        });
-*/
-
+        recyclerViewHolder.setEventCategory(currentItem.getEventCategory());
+        recyclerViewHolder.setOrganizationName(currentItem.getOrganizationName());
+        recyclerViewHolder.setEventCategory(currentItem.getEventCategory());
+        recyclerViewHolder.setEventTitle(currentItem.getEventTitle());
+        recyclerViewHolder.setEventDate(currentItem.getEventDate());
+        recyclerViewHolder.setEventFlyer(mContext.getApplicationContext(), currentItem.getEventFlyer());
+        recyclerViewHolder.setOrganizationLogo(mContext.getApplicationContext(), currentItem.getOrganizationLogo());
+        //recyclerViewHolder.setE(mContext.getApplicationContext(), currentItem.getOrganizationLogo());
 
 
 
@@ -277,12 +236,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
 
 
-                //Intent mIntent = new Intent(mContext, DetailActivity.class);
-                  //  mIntent.putExtra("Title", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getOrganizationName());
-                  //  mIntent.putExtra("Description", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getEventTitle());
-                  //  mIntent.putExtra("Image", mArrayList.get(recyclerViewHolder.getAdapterPosition()).getEventFlyer());
-                  //  mContext.startActivity(mIntent);
-
             }
         });
 
@@ -291,12 +244,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
 
 
+
+
     }
+
 
     @Override
     public int getItemCount() {
         return mArrayList.size();
     }
+
+
+    private void firebaseSearch(String searchText){
+        Query firebaseSearchQuery ;
+    }
+
+
 
     @Override
     public Filter getFilter() {
@@ -306,8 +269,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     private Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+            //final FilterResults results = new FilterResults();
             ArrayList<CardItem> filteredList = new ArrayList<>();
+            //ArrayList<CardItem> filteredList = mArrayList;
 
+
+
+            //if (mArrayListFull == null) {
+              //  mArrayListFull = new ArrayList<>(filteredList);
+            //}
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(mArrayListFull);
             } else {
@@ -331,15 +301,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
         }
 
+
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             mArrayList.clear();
-            mArrayList.addAll((ArrayList) results.values);
+            //mArrayList.addAll((ArrayList) results.values);
+            //mArrayList.addAll((Collection<?extends CardItem>) results.values);
+            //mArrayList.addAll((ArrayList) results.values);
+            mArrayList.addAll((ArrayList<CardItem>) results.values);
+
             notifyDataSetChanged();
         }
     };
 }
-
-
 
 

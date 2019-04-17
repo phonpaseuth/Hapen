@@ -92,7 +92,15 @@ public class AdapterOrgs extends RecyclerView.Adapter<AdapterOrgs.MyHolder> {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
                             .child("following").child(org.getId()).setValue(true);
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(org.getId())
-                            .child("following").child(org.getId()).setValue(true);
+                            .child("followers").child(firebaseUser.getUid()).setValue(true);
+                }
+                else{
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
+                            .child("following").child(org.getId()).removeValue();
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(org.getId())
+                            .child("followers").child(firebaseUser.getUid()).removeValue();
+
+
                 }
             }
         });

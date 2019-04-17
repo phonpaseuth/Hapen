@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity
             setTitle("Home");
         } else if (id == R.id.nav_discover) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new FragmentHome()).commit();
+                    new FragmentDiscovery()).commit();
             setTitle("Discover");
         } else if (id == R.id.nav_saved) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

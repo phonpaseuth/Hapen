@@ -69,9 +69,6 @@ public class FragmentHome extends Fragment {
 
 
 //public class FragmentHome extends Fragment {
-
-
-
     RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     //private RecyclerView mAdapter;
@@ -88,13 +85,6 @@ public class FragmentHome extends Fragment {
     FirebaseDatabase mFirebaseDatabase;
     SharedPreferences mSharedPref;
     Spinner orgSpinner;
-
-
-
-
-
-
-
 
     @Nullable
     @Override
@@ -162,12 +152,7 @@ public class FragmentHome extends Fragment {
         adapter1.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner1.setAdapter(adapter1);
 
-
-
-
         // Organization spinner
-
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference fDatabaseRoot = database.getReference();
         fDatabaseRoot.child("events").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -189,12 +174,7 @@ public class FragmentHome extends Fragment {
                 ArrayAdapter<String> areasAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, orgNameList);
                 areasAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
                 spinner2.setAdapter(areasAdapter);
-
-
             }
-
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -227,19 +207,7 @@ public class FragmentHome extends Fragment {
 
             }
         });
-
-
-
-
-//WELCOME20-0dae803d
-
-
-
-
-
     }
-
-
 
 public void onCreate(@Nullable Bundle savedInstanceState){
         setHasOptionsMenu(true);
@@ -247,7 +215,6 @@ public void onCreate(@Nullable Bundle savedInstanceState){
 
 
 }
-
 
     private void init() {
 

@@ -2,15 +2,17 @@ package com.hapen.navigationdrawertest;
 
 public class OrgItem {
 
-    String organizationName, search, Logo, cover, uid;
+    String organizationName, Logo, id;
 
     public OrgItem(){}
 
-    public OrgItem(String organizationName, String search, String Logo, String cover){
+    public OrgItem(String organizationName, String Logo, String id){
         this.organizationName = organizationName;
-        this.search = search;
+        //this.search = search;
         this.Logo = Logo;
-        this.cover = cover;
+        this.id = id;
+        //.cover = cover;
+
 
     }
 
@@ -22,13 +24,7 @@ public class OrgItem {
         this.organizationName = organizationName;
     }
 
-    public String getSearch() {
-        return search;
-    }
 
-    public void setSearch(String search){
-        this.search = search;
-    }
 
     public String getImage() {
         return Logo;
@@ -38,6 +34,24 @@ public class OrgItem {
         this.Logo = Logo;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
+
+
+    /**
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search){
+        this.search = search;
+    }
+
     public String getCover() {
         return cover;
     }
@@ -45,5 +59,7 @@ public class OrgItem {
     public void setCover(String cover){
         this.cover = cover;
     }
+     **/
+
 
 }

@@ -7,9 +7,14 @@
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp"
-    app:cardBackgroundColor="white"
+    app:cardBackgroundColor="@android:color/white"
     app:contentPadding="3dp">
     
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,6 +31,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
+                android:paddingTop="10dp"
                 android:layout_width="match_parent"
                 android:id="@+id/nameTv"
                 android:layout_height="wrap_content"
@@ -37,4 +43,19 @@
         </LinearLayout>
 
     </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/button_background"
+            android:id="@+id/btn_follow"
+            android:textColor="@color/colorPrimary"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+
+            />
+
+    </RelativeLayout>
+
+
 </android.support.v7.widget.CardView>

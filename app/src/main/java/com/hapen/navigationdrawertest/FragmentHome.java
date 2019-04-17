@@ -105,13 +105,8 @@ public class FragmentHome extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         setHasOptionsMenu(true);
 
-
-
-
-
         return v;
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -295,13 +290,6 @@ public void onCreate(@Nullable Bundle savedInstanceState){
 
             }
         });
-
-
-
-
-
-
-
     }
 
 

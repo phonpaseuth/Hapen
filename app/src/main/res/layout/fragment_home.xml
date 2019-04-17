@@ -8,10 +8,6 @@
     android:background="@android:color/background_light">
 
 
-
-
-
-
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"

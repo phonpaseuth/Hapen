@@ -70,7 +70,8 @@ public class AdapterOrgs extends RecyclerView.Adapter<AdapterOrgs.MyHolder> {
 
         }
 
-        //isFollowing(org.getId(),myHolder.btn_follow);
+
+        isFollowing(org.getName1 (),myHolder.btn_follow);
 /**
         if (org.getId().equals(firebaseUser.getUid())){
             myHolder.btn_follow.setVisibility(View.GONE);
@@ -90,14 +91,14 @@ public class AdapterOrgs extends RecyclerView.Adapter<AdapterOrgs.MyHolder> {
             public void onClick(View v) {
                 if (myHolder.btn_follow.getText().toString().equals("follow")){
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
-                            .child("following").child(org.getId()).setValue(true);
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(org.getId())
+                            .child("following").child(org.getName1()).setValue(true);
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(org.getName1())
                             .child("followers").child(firebaseUser.getUid()).setValue(true);
                 }
                 else{
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
-                            .child("following").child(org.getId()).removeValue();
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(org.getId())
+                            .child("following").child(org.getName1()).removeValue();
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(org.getName1())
                             .child("followers").child(firebaseUser.getUid()).removeValue();
 
 

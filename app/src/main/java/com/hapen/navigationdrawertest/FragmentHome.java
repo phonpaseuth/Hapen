@@ -43,6 +43,7 @@ import android.support.v7.app.AlertDialog;
 
 
 import com.dmallcott.dismissibleimageview.DismissibleImageView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -75,6 +76,7 @@ public class FragmentHome extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<CardItem> cardItem;
     private ArrayList<String> followingList;
+    //private ArrayList<String> postList;
     DatabaseReference ref;
     ProgressDialog progress;
     RecyclerAdapter cc;
@@ -85,6 +87,7 @@ public class FragmentHome extends Fragment {
     FirebaseDatabase mFirebaseDatabase;
     SharedPreferences mSharedPref;
     Spinner orgSpinner;
+
 
     @Nullable
     @Override
@@ -164,6 +167,8 @@ public class FragmentHome extends Fragment {
                 for (DataSnapshot addressSnapshot: dataSnapshot.getChildren()) {
                     String orgName = addressSnapshot.child("organization").getValue(String.class);
                     if (orgName != null) {
+
+
                         orgNameList.add(orgName);
                     }
                 }
@@ -228,7 +233,32 @@ public void onCreate(@Nullable Bundle savedInstanceState){
 
         //cc = new RecyclerAdapter(mArrayList);
         mRecyclerView.setAdapter(cc);
+        checkFollowing();
 
+    }
+
+    private void checkFollowing(){
+        followingList = new ArrayList<>();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Follow")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("following");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                followingList.clear();
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    followingList.add(snapshot.getKey());
+                }
+                //loaddata();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void loaddata(){
@@ -243,7 +273,13 @@ public void onCreate(@Nullable Bundle savedInstanceState){
                 cardItem.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     CardItem post = snapshot.getValue(CardItem.class);
-                    cardItem.add(post);
+                    //cardItem.add(post);
+                    for (String id: followingList){
+                        if(post.getOrganizationName().equals(id)){
+                            cardItem.add(post);
+
+                        }
+                    }
 
 
                 }
@@ -271,11 +307,18 @@ public void onCreate(@Nullable Bundle savedInstanceState){
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     CardItem post = snapshot.getValue(CardItem.class);
 
+                    for (String id: followingList){
+                        if(post.getOrganizationName().equals(id)){
 
-                    if (post.getEventTitle().toLowerCase().contains(searchText.toLowerCase()) || post.getOrganizationName().toLowerCase().contains(searchText.toLowerCase())){
+                            if (post.getEventTitle().toLowerCase().contains(searchText.toLowerCase()) || post.getOrganizationName().toLowerCase().contains(searchText.toLowerCase())){
 
-                        cardItem.add(post);
+                                cardItem.add(post);
+                            }
+
+
+                        }
                     }
+
 
 
                 }
@@ -353,7 +396,15 @@ public void onCreate(@Nullable Bundle savedInstanceState){
                 cardItem.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     CardItem post = snapshot.getValue(CardItem.class);
-                    cardItem.add(post);
+
+
+                    //cardItem.add(post);
+                    for (String id: followingList){
+                        if(post.getOrganizationName().equals(id)){
+                            cardItem.add(post);
+
+                        }
+                    }
 
 
                 }
@@ -385,7 +436,13 @@ public void onCreate(@Nullable Bundle savedInstanceState){
                 cardItem.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     CardItem post = snapshot.getValue(CardItem.class);
-                    cardItem.add(post);
+                    for (String id: followingList){
+                        if(post.getOrganizationName().equals(id)){
+                            cardItem.add(post);
+
+                        }
+                    }
+                    //cardItem.add(post);
 
 
                 }

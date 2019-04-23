@@ -39,7 +39,7 @@ public class CardItem {
     public CardItem(String orgLogo, String orgName, String category, String title, String date,
                     String description, String flyer) {
         this.organizationLogo = orgLogo;
-        this.organizationName = orgName;
+        this.organization = orgName;
         this.eventCategory = category;
         this.eventTitle = title;
         this.eventDate = date;
@@ -51,8 +51,8 @@ public class CardItem {
         this.organizationLogo = organizationLogo;
     }
 
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
+    public void setOrganizationName(String organization) {
+        this.organization = organization;
     }
 
     public void setEventCategory(String eventCategory) {

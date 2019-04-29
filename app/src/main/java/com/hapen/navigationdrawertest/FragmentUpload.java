@@ -59,6 +59,7 @@ public class FragmentUpload extends Fragment {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String fullName;
 
+
     public static class event {
 
         public String organization;

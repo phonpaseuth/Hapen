@@ -22,6 +22,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,13 +52,16 @@ public class RegisterActivity extends AppCompatActivity {
     static int REQUESCODE = 1 ;
     Uri pickedImgUri ;
 
-    private EditText userEmail,userPassword,userPAssword2,userName;
-    private ProgressBar loadingProgress;
-    private Button regBtn;
+     EditText userEmail,userPassword,userPAssword2,userName;
+     ProgressBar loadingProgress;
+     Button regBtn;
 
-    private FirebaseAuth mAuth;
+     FirebaseAuth mAuth;
 
     TextView txt_login;
+
+    RadioGroup rg;
+    RadioButton radio_b;
 
 
 
@@ -74,6 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
         regBtn = findViewById(R.id.regBtn);
         loadingProgress.setVisibility(View.INVISIBLE);
         txt_login = findViewById(R.id.txt_login);
+        rg = findViewById(R.id.TypeUser);
 
 
 
@@ -117,7 +123,13 @@ public class RegisterActivity extends AppCompatActivity {
                     // CreateUserAccount method will try to create the user if the email is valid
 
                     CreateUserAccount(email,name,password);
+
+                    int selected_id = rg.getCheckedRadioButtonId();
+                    radio_b=(RadioButton)findViewById(selected_id);
+                    Toast.makeText(RegisterActivity.this,radio_b.getText().toString(),Toast.LENGTH_LONG).show();
                 }
+
+
 
 
 

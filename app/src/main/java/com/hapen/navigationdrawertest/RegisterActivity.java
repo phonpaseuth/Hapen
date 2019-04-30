@@ -120,7 +120,16 @@ public class RegisterActivity extends AppCompatActivity {
                     radio_b=(RadioButton)findViewById(selected_id);
                     Toast.makeText(RegisterActivity.this,radio_b.getText().toString(),Toast.LENGTH_LONG).show();
                     if (radio_b.getText() == "Organization") {
+                        // add the data to the database
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
+                        DatabaseReference userRef = database.getReference("users");
+                        DatabaseReference newRef = userRef.push();
+
+                        newRef.setValue(new user(
+                                name
+                        ));
                     }
                 }
             }

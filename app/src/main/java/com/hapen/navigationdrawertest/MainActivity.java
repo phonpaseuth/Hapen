@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity
             setTitle("Home");
         }
 
+        /*
         // Write to database
         DatabaseReference myRef = database.getReference("message/test");
         myRef.setValue("Hello, Hell!");
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity
                 System.out.println("Database error: " + databaseError);
             }
         });
+        */
     }
 
     @Override

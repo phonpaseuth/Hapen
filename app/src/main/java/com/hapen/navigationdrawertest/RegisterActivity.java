@@ -42,28 +42,33 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.HashMap;
-
 public class RegisterActivity extends AppCompatActivity {
-
-
     ImageView ImgUserPhoto;
     static int PReqCode = 1 ;
     static int REQUESCODE = 1 ;
     Uri pickedImgUri ;
 
-     EditText userEmail,userPassword,userPAssword2,userName;
-     ProgressBar loadingProgress;
-     Button regBtn;
+    EditText userEmail,userPassword,userPAssword2,userName;
+    ProgressBar loadingProgress;
+    Button regBtn;
 
-     FirebaseAuth mAuth;
+    FirebaseAuth mAuth;
 
     TextView txt_login;
 
     RadioGroup rg;
     RadioButton radio_b;
 
-
+    public static class user {
+        public String name;
+        public String email;
+        public String url;
+        public user(String _name, String _email, String _url) {
+            name = _name;
+            email = _email;
+            url = _url;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +107,6 @@ public class RegisterActivity extends AppCompatActivity {
                 final String name = userName.getText().toString();
 
                 if( email.isEmpty() || name.isEmpty() || password.isEmpty()  || !password.equals(password2)) {
-
-
                     // something goes wrong : all fields must be filled
                     // we need to display an error message
                     showMessage("Please Verify all fields") ;
@@ -114,23 +117,10 @@ public class RegisterActivity extends AppCompatActivity {
                     // everything is ok and all fields are filled now we can start creating user account
                     // CreateUserAccount method will try to create the user if the email is valid
 
-                    CreateUserAccount(email,name,password);
-
                     int selected_id = rg.getCheckedRadioButtonId();
                     radio_b=(RadioButton)findViewById(selected_id);
-                    Toast.makeText(RegisterActivity.this,radio_b.getText().toString(),Toast.LENGTH_LONG).show();
-                    if (radio_b.getText() == "Organization") {
-                        // add the data to the database
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-                        DatabaseReference userRef = database.getReference("users");
-                        DatabaseReference newRef = userRef.push();
-
-                        newRef.setValue(new user(
-                                name
-                        ));
-                    }
+                    CreateUserAccount(email,name,password, radio_b.getText().toString());
                 }
             }
         });
@@ -151,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void CreateUserAccount(String email, final String name, String password) {
+    private void CreateUserAccount(final String email, final String name, String password, final String radio) {
         // this method create user account with specific email and password
         mAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -161,7 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
                             // user account created successfully
                             showMessage("Account created");
                             // after we created user account we need to update his profile picture and name
-                            updateUserInfo( name ,pickedImgUri,mAuth.getCurrentUser());
+                            updateUserInfo(email, name,pickedImgUri,mAuth.getCurrentUser(), radio);
                         }
                         else
                         {
@@ -175,7 +165,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // update user photo and name
-    private void updateUserInfo(final String name, Uri pickedImgUri, final FirebaseUser currentUser) {
+    private void updateUserInfo(final String email, final String name, Uri pickedImgUri, final FirebaseUser currentUser, final String radio) {
         // first we need to upload user photo to firebase storage and get url
         StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("users_photos");
         final StorageReference imageFilePath = mStorage.child(pickedImgUri.getLastPathSegment());
@@ -188,10 +178,24 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Uri uri) {
                         // uri contain user image url
+
+                        // add the data to the database
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                        DatabaseReference userRef = database.getReference(radio);
+                        DatabaseReference newRef = userRef.push();
+
+                        newRef.setValue(new user(
+                                name,
+                                email,
+                                uri.toString()
+                        ));
+
                         UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
                                 .setDisplayName(name)
                                 .setPhotoUri(uri)
                                 .build();
+                        ///////////////////////////////////
 
                         currentUser.updateProfile(profleUpdate)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -204,7 +208,6 @@ public class RegisterActivity extends AppCompatActivity {
                                         }
                                     }
                                 });
-
                     }
                 });
             }

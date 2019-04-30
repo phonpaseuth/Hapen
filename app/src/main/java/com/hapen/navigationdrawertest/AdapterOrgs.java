@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +22,8 @@ import com.squareup.picasso.Picasso;
 import android.widget.Button;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class AdapterOrgs extends RecyclerView.Adapter<AdapterOrgs.MyHolder> {
@@ -45,6 +48,8 @@ public class AdapterOrgs extends RecyclerView.Adapter<AdapterOrgs.MyHolder> {
         View view = LayoutInflater.from(context).inflate(R.layout.row_orgs, viewGroup, false);
 
 
+
+
         return new MyHolder(view);
     }
 
@@ -56,6 +61,7 @@ public class AdapterOrgs extends RecyclerView.Adapter<AdapterOrgs.MyHolder> {
         final OrgItem org = orgList.get(i);
 
         myHolder.btn_follow.setVisibility(View.VISIBLE);
+
 
 
         final String orgImage = orgList.get(i).getImage();

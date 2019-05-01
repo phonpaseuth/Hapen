@@ -60,13 +60,13 @@ public class RegisterActivity extends AppCompatActivity {
     RadioButton radio_b;
 
     public static class user {
-        public String name;
+        public String organizationName;
         public String email;
-        public String url;
-        public user(String _name, String _email, String _url) {
-            name = _name;
+        public String Logo;
+        public user(String _name, String _email, String _Logo) {
+            organizationName = _name;
             email = _email;
-            url = _url;
+            Logo = _Logo;
         }
     }
 
@@ -179,8 +179,10 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         // uri contain user image url
 
+                        ///////////////////////////////////
                         // add the data to the database
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
                         DatabaseReference userRef = database.getReference(radio);
                         DatabaseReference newRef = userRef.push();

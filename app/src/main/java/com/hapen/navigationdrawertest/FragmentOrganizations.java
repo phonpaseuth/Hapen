@@ -58,7 +58,7 @@ FragmentOrganizations extends Fragment {
 
         //FirebaseUser fOrg = FirebaseAuth.getInstance().getCurrentUser();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("orgs");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Organization");
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override

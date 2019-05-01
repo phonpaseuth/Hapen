@@ -57,26 +57,28 @@ public class FragmentUpload extends Fragment {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    String fullName;
 
+    public String fullName;
+    public String organization_logo;
 
     public static class event {
-
-        public String organization;
         public String category;
-        public String title;
-        public String description;
         public String date;
+        public String description;
+        public String organization;
+        public String organizationLogo;
+        public String title;
         public String url;
-        // public String[] attendants = new String[0];
 
-        public event(String eOrganization, String eCategory, String eTitle, String eDescription, String eDate, String eUrl) {
-            organization = eOrganization;
-            category = eCategory;
-            title = eTitle;
-            description = eDescription;
-            date = eDate;   // https://stackoverflow.com/questions/10286204/the-right-json-date-format | https://stackoverflow.com/questions/37976468/saving-and-retrieving-date-in-firebase
-            url = eUrl;
+        public event(String _category, String _date, String _description, String _organization,
+                     String _organizationLogo, String _title, String _url) {
+            category = _category;
+            date = _date;   // https://stackoverflow.com/questions/10286204/the-right-json-date-format | https://stackoverflow.com/questions/37976468/saving-and-retrieving-date-in-firebase
+            description = _description;
+            organization = _organization;
+            organizationLogo = _organizationLogo;
+            title = _title;
+            url = _url;
         }
     }
 
@@ -103,26 +105,10 @@ public class FragmentUpload extends Fragment {
             }
         });
 
-        // Get uploader's info
-        DatabaseReference userRef = database.getReference("users").child(user.getUid());
-        userRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                fullName = dataSnapshot.child("fullName").getValue(String.class);
-                System.out.print(fullName);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
         uploadImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(filePath != null) {
-
                     final StorageReference childRef = storageRef.child(""+upload_title.getText());
 
                     //uploading the image
@@ -153,13 +139,35 @@ public class FragmentUpload extends Fragment {
                                         DatabaseReference myRef = database.getReference("events");
                                         DatabaseReference newRef = myRef.push();
 
+                                        fullName = user.getDisplayName();
+                                        organization_logo = user.getPhotoUrl().toString();
+
+                                        /*
+                                        // Get uploader's info
+                                        DatabaseReference userRef = database.getReference("Organization")
+                                                .child(user.getUid());
+                                        userRef.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                fullName = dataSnapshot.child("organizationName").getValue(String.class);
+                                                organization_logo = dataSnapshot.child("Logo").getValue(String.class);
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                        */
+
                                         newRef.setValue(new event(
-                                                fullName,
                                                 "Scholarship",
-                                                ""+upload_title.getText(),
+                                                "01/01/2019",
                                                 ""+upload_description.getText(),
-                                                "Random date",
-                                                downloadUri.toString()));
+                                                ""+fullName,
+                                                ""+organization_logo,
+                                                ""+upload_title.getText(),
+                                                ""+downloadUri.toString()));
                                     } else {
                                         // Handle failures
                                         // ...
@@ -189,7 +197,6 @@ public class FragmentUpload extends Fragment {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK&& data != null && data.getData() != null) {
             filePath = data.getData();
-
             try {
                 //getting image from gallery
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getApplicationContext().getContentResolver(), filePath);
@@ -199,9 +206,5 @@ public class FragmentUpload extends Fragment {
                 e.printStackTrace();
             }
         }
-
-
     }
-
-
 }
